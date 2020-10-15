@@ -3,14 +3,23 @@
 #include <cassert>
 #include <cstdio>
 
+Allocator::Allocator()
+{
+    this->start = nullptr;
+    this->offset = nullptr;
+    this->end = nullptr;
+    this->cur = nullptr;
+}
 void Allocator::makeAllocator(size_t maxSize)
 {
+    if (this->start) {
+        delete this->start;
+        this->start = nullptr;
+    }
     if (maxSize > 0) {
         this->start = new char[maxSize];
         this->end = this->start + maxSize - 1;
         this->offset = this->start;
-    } else {
-        this->start = nullptr;
     }
 }
 char *Allocator::alloc(size_t size)
@@ -30,6 +39,16 @@ void Allocator::reset()
 {
     this->offset = this->start;
 }
+Allocator::~Allocator()
+{
+    delete this->start;
+    this->start = nullptr;
+}
+
+void noinit_test() {
+    Allocator tested;
+    assert(tested.start == nullptr);
+}
 
 void init_test()
 {
@@ -46,13 +65,29 @@ void init_null_test() {
     assert(tested.start == nullptr);
 }
 
-void alloc_null_test() {
-      size_t maxsize = 0, size = 1;
+void double_init_test() {
+    size_t maxsize1 = 10, maxsize2 = 20;
+    Allocator tested;
+    tested.makeAllocator(maxsize1);
+    tested.makeAllocator(maxsize2);
+    assert(tested.end - tested.start + 1 == maxsize2);
+}
+
+void alloc_noinit_test() {
+      size_t size = 100;
       char *ptr;
       Allocator tested;
-      tested.makeAllocator(maxsize);
       ptr = tested.alloc(size);
       assert(tested.start == nullptr && ptr == nullptr);
+}
+
+void alloc_null_test() {
+    size_t maxsize = 0, size = 1;
+    char *ptr;
+    Allocator tested;
+    tested.makeAllocator(maxsize);
+    ptr = tested.alloc(size);
+    assert(tested.start == nullptr && ptr == nullptr);
 }
 
 void alloc_test()

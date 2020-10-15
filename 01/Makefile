@@ -1,14 +1,17 @@
 CC=g++
 CFLAGS=-c
 
+.PHONY: all test
+
 all: main
 
-test: test
+test: tested
+		$^
 
 main: allocator.o main.o
 		$(CC) $^ -o $@
 
-test: test.o allocator.o
+tested: tested.o allocator.o
 		$(CC) $^ -o $@
 
 %.o: %.cpp
