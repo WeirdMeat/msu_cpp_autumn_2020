@@ -36,11 +36,12 @@ void TokenParser::SetEndCallback(std::function<void()> func)
 void TokenParser::Parse(std::string Str)
 {
     std::string word;
+    llu numb;
     std::stringstream ss(Str);
     this->StartCallback();
     while(ss >> word) {
         try {
-            llu numb = std::stoull(word);
+            numb = std::stoull(word);
             this->DigitTokenCallback(numb);
         }
         catch(std::invalid_argument e) {
