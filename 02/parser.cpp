@@ -40,7 +40,7 @@ void TokenParser::Parse(std::string Str)
     this->StartCallback();
     while(ss >> word) {
         try {
-            int numb = std::stoi(word);
+            llu numb = std::stoull(word);
             this->DigitTokenCallback(numb);
         }
         catch(std::invalid_argument e) {
