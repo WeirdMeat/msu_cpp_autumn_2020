@@ -20,16 +20,17 @@ private:
 public:
     Matrix(int rows, int cols);
     Matrix(const Matrix &m);
+    Matrix& operator=(const Matrix &m);
     size_t getRows() const;
     size_t getColumns() const;
     RowProxy operator[](int i) const;
-    friend Matrix operator*(const Matrix &m, int n);
-    friend Matrix operator*(int n, const Matrix &m);
-    Matrix operator*=(int n);
+    friend const Matrix operator*(const Matrix &m, int n);
+    friend const Matrix operator*(int n, const Matrix &m);
+    Matrix& operator*=(int n);
     friend std::ostream& operator<<(std::ostream &out, const Matrix &m);
-    friend Matrix operator+(const Matrix &m1, const Matrix &m2);
-    friend bool operator==(const Matrix &m1, const Matrix &m2);
-    friend bool operator!=(const Matrix &m1, const Matrix &m2);
+    friend const Matrix operator+(const Matrix &m1, const Matrix &m2);
+    friend const bool operator==(const Matrix &m1, const Matrix &m2);
+    friend const bool operator!=(const Matrix &m1, const Matrix &m2);
     ~Matrix();
 };
 

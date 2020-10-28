@@ -6,8 +6,8 @@ int main(int argc, char const *argv[]) {
     matrix_rows();
     matrix_el();
     matrix_output();
+    matrix_comp();
     matrix_sum();
     matrix_mult();
-    matrix_comp();
     return 0;
 }

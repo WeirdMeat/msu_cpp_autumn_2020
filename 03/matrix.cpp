@@ -15,12 +15,34 @@ Matrix::Matrix(int rows, int cols)
 }
 Matrix::Matrix(const Matrix &m): m_rows(m.m_rows), m_cols(m.m_cols)
 {
+    delete [] this->m_start;
+    this->m_start = nullptr;
+
     this->m_start = new int[m.m_rows * m.m_cols];
     for (size_t i = 0; i < m.m_rows; i++) {
         for (size_t j = 0; j < m.m_cols; j++) {
             (*this)[i][j] = m[i][j];
         }
     }
+}
+Matrix& Matrix::operator=(const Matrix &m)
+{
+    if (this == &m)
+        return *this;
+
+    delete [] this->m_start;
+    this->m_start = nullptr;
+
+    this->m_rows = m.m_rows;
+    this->m_cols = m.m_cols;
+    this->m_start = new int[m.m_rows * m.m_cols];
+
+    for (size_t i = 0; i < this->m_rows; i++) {
+        for (size_t j = 0; j < this->m_cols; j++) {
+            (*this)[i][j] = m[i][j];
+        }
+    }
+    return *this;
 }
 size_t Matrix::getRows() const
 {
@@ -56,7 +78,7 @@ const int& Matrix::RowProxy::operator[](int j) const
     }
     return *(this->m_pos + j);
 }
-Matrix operator*(const Matrix &m, int n)
+const Matrix operator*(const Matrix &m, int n)
 {
     Matrix m_new(m);
     for (size_t i = 0; i < m.m_rows; i++) {
@@ -66,7 +88,7 @@ Matrix operator*(const Matrix &m, int n)
     }
     return m_new;
 }
-Matrix operator*(int n, const Matrix &m)
+const Matrix operator*(int n, const Matrix &m)
 {
     Matrix m_new(m);
     for (size_t i = 0; i < m.m_rows; i++) {
@@ -76,7 +98,7 @@ Matrix operator*(int n, const Matrix &m)
     }
     return m_new;
 }
-Matrix Matrix::operator*=(int n)
+Matrix& Matrix::operator*=(int n)
 {
     for (size_t i = 0; i < this->m_rows; i++) {
         for (size_t j = 0; j < this->m_cols; j++) {
@@ -95,7 +117,7 @@ std::ostream& operator<<(std::ostream &out, const Matrix &m)
     }
     return out;
 }
-Matrix operator+(const Matrix &m1, const Matrix &m2)
+const Matrix operator+(const Matrix &m1, const Matrix &m2)
 {
     if ((m1.m_rows != m2.m_rows) && (m1.m_cols != m2.m_cols)) {
         throw std::out_of_range("");
@@ -108,7 +130,7 @@ Matrix operator+(const Matrix &m1, const Matrix &m2)
     }
     return m;
 }
-bool operator==(const Matrix &m1, const Matrix &m2)
+const bool operator==(const Matrix &m1, const Matrix &m2)
 {
     if ((m1.m_rows != m2.m_rows) && (m1.m_cols != m2.m_cols)) {
         return false;
@@ -123,13 +145,13 @@ bool operator==(const Matrix &m1, const Matrix &m2)
     }
     return true;
 }
-bool operator!=(const Matrix &m1, const Matrix &m2)
+const bool operator!=(const Matrix &m1, const Matrix &m2)
 {
     return !(m1 == m2);
 }
 Matrix::~Matrix()
 {
-    delete this->m_start;
+    delete [] this->m_start;
     this->m_start = nullptr;
 }
 
