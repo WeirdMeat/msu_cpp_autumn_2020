@@ -10,7 +10,7 @@ TokenParser::TokenParser()
 {
     this->StartCallback = [](){};
     this->DigitTokenCallback = [](llu){};
-    this->StringTokenCallback = [](std::string){};
+    this->StringTokenCallback = [](const std::string&){};
     this->EndCallback = [](){};
 }
 void TokenParser::SetStartCallback(std::function<void()> func)
@@ -23,7 +23,7 @@ void TokenParser::SetDigitTokenCallback(std::function<void(llu)> func)
     this->DigitTokenCallback = func;
     return;
 }
-void TokenParser::SetStringTokenCallback(std::function<void(std::string)> func)
+void TokenParser::SetStringTokenCallback(std::function<void(const std::string&)> func)
 {
     this->StringTokenCallback = func;
     return;
@@ -33,7 +33,7 @@ void TokenParser::SetEndCallback(std::function<void()> func)
     this->EndCallback = func;
     return;
 }
-void TokenParser::Parse(std::string Str)
+void TokenParser::Parse(const std::string& Str)
 {
     std::string word;
     llu numb;
@@ -76,7 +76,7 @@ void digit_test() {
 void string_test() {
     TokenParser tested;
     std::string check;
-    tested.SetStringTokenCallback([&check](std::string str){check += str;});
+    tested.SetStringTokenCallback([&check](const std::string& str){check += str;});
     tested.Parse("abc 123 def");
     assert(check == "abcdef");
 }
@@ -87,7 +87,7 @@ void all_test() {
     std::string check_string;
     tested.SetStartCallback([&check_start](){check_start = true;});
     tested.SetDigitTokenCallback([&check_digits](llu dig){check_digits += dig;});
-    tested.SetStringTokenCallback([&check_string](std::string str){check_string += str;});
+    tested.SetStringTokenCallback([&check_string](const std::string& str){check_string += str;});
     tested.SetEndCallback([&check_end](){check_end = true;});
     tested.Parse("abc 1 2 def 3 ghi");
     assert(check_start && check_digits == 6 && check_string == "abcdefghi" && check_end);
