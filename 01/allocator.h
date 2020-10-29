@@ -1,4 +1,5 @@
 #include <cstddef>
+#pragma once
 
 class Allocator
 {
