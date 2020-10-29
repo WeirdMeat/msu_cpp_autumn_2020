@@ -9,6 +9,5 @@ int main(int argc, char const *argv[]) {
     matrix_comp();
     matrix_sum();
     matrix_mult();
-    puts("A");
     return 0;
 }
