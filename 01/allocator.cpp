@@ -74,11 +74,11 @@ void double_init_test() {
 }
 
 void alloc_noinit_test() {
-      size_t size = 100;
-      char *ptr;
-      Allocator tested;
-      ptr = tested.alloc(size);
-      assert(tested.start == nullptr && ptr == nullptr);
+    size_t size = 100;
+    char *ptr;
+    Allocator tested;
+    ptr = tested.alloc(size);
+    assert(tested.start == nullptr && ptr == nullptr);
 }
 
 void alloc_null_test() {
