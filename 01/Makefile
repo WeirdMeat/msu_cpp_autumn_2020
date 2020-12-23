@@ -1,4 +1,4 @@
-CC=g++
+CC=g++ -std=c++17
 CFLAGS=-c
 
 .PHONY: all test
@@ -6,7 +6,9 @@ CFLAGS=-c
 all: main
 
 test: tested
-		$^
+		@echo testing...
+		@./$<
+		@echo testing successful
 
 main: allocator.o main.o
 		$(CC) $^ -o $@
