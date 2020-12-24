@@ -11,10 +11,10 @@ test: tested
 		@echo testing successful
 
 main: big_numbers.o main.o
-		$(CC) $^ -o $@
+		$(CC) $? -o $@
 
 tested: tested.o big_numbers.o
-		$(CC) $^ -o $@
+		$(CC) $? -o $@
 
 %.o: %.cpp
 		$(CC) $(CFLAGS) $<
