@@ -7,7 +7,7 @@ all: main
 
 test: tested
 		@echo testing...
-		@./$<
+		@./$?
 		@echo testing successful
 
 main: big_numbers.o main.o
@@ -16,8 +16,8 @@ main: big_numbers.o main.o
 tested: tested.o big_numbers.o
 		$(CC) $? -o $@
 
-%.o: %.cpp
-		$(CC) $(CFLAGS) $<
+.cpp.o:
+		$(CC) $(CFLAGS) $?
 
 clean:
 		rm -rf main tested *.o
