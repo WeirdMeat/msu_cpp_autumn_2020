@@ -9,21 +9,20 @@
 
 class ThreadPool
 {
+private:
+    std::vector<std::thread> threads;
+    std::queue<std::function <void()>> thread_pool;
+    std::atomic<bool> done;
+    std::mutex locker;
+    std::condition_variable new_task;
 public:
     explicit ThreadPool(size_t poolSize): done(false) {
-        for (size_t i = 0; i < poolSize; ++i) {
+        for (size_t i = 0; i < poolSize; i++) {
             threads.emplace_back([this]() {
                 while (!done) {
-                    {
-                        std::unique_lock<std::mutex> lock(locker);
-                        while (thread_pool.empty() && !done) {
-                            new_task.wait(lock);
-                        }
-                    }
-                    locker.lock();
+                    std::unique_lock<std::mutex> lock(locker);
                     if (thread_pool.empty()) {
-                        locker.unlock();
-                        continue;
+                        next_task().wait(lock);
                     } else {
                         auto next_task = std::move(thread_pool.front());
                         thread_pool.pop();
@@ -32,14 +31,6 @@ public:
                     }
                 }
             });
-        }
-    }
-
-    ~ThreadPool() {
-        done = false;
-        new_task.notify_all();
-        for (auto& i : threads) {
-            i.join();
         }
     }
     template <class Func, class... Args>
@@ -51,12 +42,13 @@ public:
         new_task.notify_one();
         return task->get_future();
     }
-private:
-    std::atomic<bool> done;
-    std::vector<std::thread> threads;
-    std::queue<std::function <void()>> thread_pool;
-    std::mutex locker;
-    std::condition_variable new_task;
+    ~ThreadPool() {
+        done = false;
+        new_task.notify_all();
+        for (auto& i : threads) {
+            i.join();
+        }
+    }
 };
 
 void test();
