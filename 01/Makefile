@@ -7,7 +7,7 @@ all: main
 
 test: tested
 		@echo testing...
-		@./$<
+		@./$?
 		@echo testing successful
 
 main: allocator.o main.o
@@ -16,5 +16,5 @@ main: allocator.o main.o
 tested: tested.o allocator.o
 		$(CC) $? -o $@
 
-%.o: %.cpp
-		$(CC) $(CFLAGS) $< -o $@
+.cpp.o:
+		$(CC) $(CFLAGS) $? -o $@
