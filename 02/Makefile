@@ -11,10 +11,10 @@ test: tested
 		@echo testing successful
 
 main: parser.o main.o
-		$(CC) $^ -o $@
+		$(CC) $? -o $@
 
 tested: tested.o parser.o
-		$(CC) $^ -o $@
+		$(CC) $? -o $@
 
 %.o: %.cpp
 		$(CC) $(CFLAGS) $< -o $@
