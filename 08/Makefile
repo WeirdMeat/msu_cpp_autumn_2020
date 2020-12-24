@@ -1,7 +1,7 @@
-CC=g++ -std=c++17
+CC=g++ -std=c++17 -pthread
 CFLAGS=-c
 
-.PHONY: all test
+.PHONY: all test clean
 
 all: main
 
@@ -13,8 +13,11 @@ test: tested
 main: thread_pool.o main.o
 		$(CC) $^ -o $@
 
-tested: tested.o thread_pool.o
-		$(CC) $^ -o $@
+tested: thread_pool.o tested.o
+		$(CC) tested.o -o $@
 
 %.o: %.cpp
-		$(CC) $(CFLAGS) $< -o $@
+		$(CC) $(CFLAGS) $<
+
+clean:
+		rm -rf main tested *.o
