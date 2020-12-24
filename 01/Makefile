@@ -11,10 +11,10 @@ test: tested
 		@echo testing successful
 
 main: allocator.o main.o
-		$(CC) $^ -o $@
+		$(CC) $? -o $@
 
 tested: tested.o allocator.o
-		$(CC) $^ -o $@
+		$(CC) $? -o $@
 
 %.o: %.cpp
 		$(CC) $(CFLAGS) $< -o $@
