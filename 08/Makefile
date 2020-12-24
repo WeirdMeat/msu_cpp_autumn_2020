@@ -7,7 +7,7 @@ all: main
 
 test: tested
 		@echo testing...
-		@./$<
+		@./$?
 		@echo testing successful
 
 main: thread_pool.o main.o
@@ -16,8 +16,8 @@ main: thread_pool.o main.o
 tested: thread_pool.o tested.o
 		$(CC) $? -o $@
 
-%.o: %.cpp
-		$(CC) $(CFLAGS) $<
+.cpp.o:
+		$(CC) $(CFLAGS) $?
 
 clean:
 		rm -rf main tested *.o
