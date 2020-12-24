@@ -11,10 +11,10 @@ test: tested
 		@echo testing successful
 
 main: serializer.o main.o
-		$(CC) $^ -o $@
+		$(CC) $? -o $@
 
 tested: tested.o serializer.o
-		$(CC) $^ -o $@
+		$(CC) $? -o $@
 
 %.o: %.cpp
 		$(CC) $(CFLAGS) $<
