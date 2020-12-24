@@ -7,7 +7,7 @@ all: main
 
 test: tested
 		@echo testing...
-		@./$<
+		@./$?
 		@echo testing successful
 
 main: parser.o main.o
@@ -16,5 +16,5 @@ main: parser.o main.o
 tested: tested.o parser.o
 		$(CC) $? -o $@
 
-%.o: %.cpp
-		$(CC) $(CFLAGS) $< -o $@
+.cpp.o:
+		$(CC) $(CFLAGS) $? -o $@
