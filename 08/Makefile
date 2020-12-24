@@ -11,10 +11,10 @@ test: tested
 		@echo testing successful
 
 main: thread_pool.o main.o
-		$(CC) $^ -o $@
+		$(CC) $? -o $@
 
 tested: thread_pool.o tested.o
-		$(CC) tested.o -o $@
+		$(CC) $? -o $@
 
 %.o: %.cpp
 		$(CC) $(CFLAGS) $<
