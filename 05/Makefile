@@ -7,7 +7,7 @@ all: main
 
 test: tested
 		@echo testing...
-		@./$<
+		@./$?
 		@echo testing successful
 
 main: serializer.o main.o
@@ -16,8 +16,8 @@ main: serializer.o main.o
 tested: tested.o serializer.o
 		$(CC) $? -o $@
 
-%.o: %.cpp
-		$(CC) $(CFLAGS) $<
+.cpp.o:
+		$(CC) $(CFLAGS) $?
 
 clean:
 		rm -rf main tested *.o
