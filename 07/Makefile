@@ -7,7 +7,7 @@ all: main
 
 test: tested
 		@echo testing...
-		@./$<
+		@./$?
 		@echo testing successful
 
 main: vector.o main.o
@@ -17,7 +17,7 @@ tested: tested.o vector.o
 		$(CC) $? -o $@
 
 %.o: %.cpp
-		$(CC) $(CFLAGS) $<
+		$(CC) $(CFLAGS) $?
 
 clean:
 		rm -rf main tested *.o
